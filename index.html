@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Orçamentos</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>Sistema de Orçamentos</header>
+<div class="container">
+
+<div class="nav">
+  <button class="btn-blue" onclick="showPage('create')">Criar Orçamento</button>
+  <button class="btn-blue" onclick="showPage('list')">Todos os Orçamentos</button>
+</div>
+
+<!-- PAGINA CRIAR -->
+<div id="page-create" class="card">
+  <h2>Criar Orçamento</h2>
+
+  <h3>Logo</h3>
+  <img id="logoPreview" class="logo-preview" src="logo.jpg" alt="Logo" />
+
+  <label>Cliente</label>
+  <input id="cliente" placeholder="Nome do cliente" />
+
+  <label>Prazo de produção</label>
+  <input id="producao" value="3 a 4 dias" />
+
+  <h3>Itens</h3>
+  <div id="items"></div>
+  <button class="btn-blue" onclick="addItem()">Adicionar Item</button>
+
+  <br><br>
+  <button class="btn-blue" onclick="gerarTexto()">Gerar Texto</button>
+  <button class="btn-blue" onclick="gerarPDF()">Gerar PDF</button>
+  <button class="btn-red" onclick="salvarOrcamento()">Salvar Orçamento</button>
+
+  <h3>Mensagem Gerada</h3>
+  <pre id="msg"></pre>
+  <button onclick="copiarTexto()">Copiar</button>
+</div>
+
+<!-- PAGINA LISTA -->
+<div id="page-list" class="card" style="display:none;">
+  <h2>Todos os Orçamentos Salvos</h2>
+  <div id="listaOrcamentos"></div>
+</div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+let itemCount = 0;
+function showPage(p){
+ document.getElementById('page-create').style.display = p==='create'?'block':'none';
+ document.getElementById('page-list').style.display = p==='list'?'block':'none';
+ if(p==='list') loadSaved();
+}
+
+function addItem(){
+ const div = document.createElement('div');
+ div.className='item-row';
+ div.innerHTML = `
+   <input placeholder="Nome do item" class="it-name" />
+   <input placeholder="Descrição / Especificações" class="it-spec" />
+   <input type="number" value="1" class="it-qtd" />
+   <input type="number" step="0.01" value="0" class="it-unit" />
+   <button class="btn-red" onclick="this.parentElement.remove()">X</button>
+ `;
+ document.getElementById('items').appendChild(div);
+}
+addItem();
+
+
+function gerarTexto(){
+ const cliente = cliente.value;
+ const producao = producao.value;
+ const dataHoje = new Date().toLocaleDateString('pt-BR');
+ let texto = `Segue proposta:\n\n`;
+
+ const itens = document.querySelectorAll('.item-row');
+ let totalGeral = 0;
+ itens.forEach((el, i)=>{
+   const nome = el.querySelector('.it-name').value;
+   const spec = el.querySelector('.it-spec').value;
+   const qtd = Number(el.querySelector('.it-qtd').value);
+   const unit = Number(el.querySelector('.it-unit').value);
+   const subtotal = qtd * unit;
+   totalGeral += subtotal;
+
+   texto += `Item ${i+1} - \"${nome}\" - ${spec}\n\n`;
+   texto += `${qtd} unidades (R$ ${unit.toFixed(2)} un.)\n`;
+   texto += `Valor Total - R$ ${subtotal.toFixed(2)}\n\n`;
+ });
+
+ texto += `--------------------------\n`;
+ texto += `Cliente: ${cliente}\n`;
+ texto += `Data: ${dataHoje}\n`;
+ texto += `Produção: ${producao}\n\n`;
+ texto += `Valor total a pagar:\nR$ ${totalGeral.toFixed(2)}\n`;
+
+ document.getElementById('msg').textContent = texto;
+ return texto;
+}
+
+function copiarTexto(){ navigator.clipboard.writeText(msg.textContent); alert('Copiado!'); }
+
+function gerarPDF(){
+ const pdfArea = document.createElement('div');
+ pdfArea.style.padding='20px';
+
+ const logo = document.getElementById('logoPreview').src;
+ if(logo) pdfArea.innerHTML += `<img src="${logo}" style='width:120px;margin-bottom:20px;'>`;
+
+ pdfArea.innerHTML += `<h2>Orçamento</h2>`;
+ pdfArea.innerHTML += `<p>${msg.textContent.replace(/\n/g,'<br>')}</p>`;
+
+ html2pdf().from(pdfArea).save('orcamento.pdf');
+}
+
+function salvarOrcamento(){
+ const texto = gerarTexto();
+ let lista = JSON.parse(localStorage.getItem('orcamentos')||'[]');
+ lista.push({ id: Date.now(), texto });
+ localStorage.setItem('orcamentos', JSON.stringify(lista));
+ alert('Orçamento salvo!');
+}
+
+function loadSaved(){
+ const lista = JSON.parse(localStorage.getItem('orcamentos')||'[]');
+ let html = '';
+ lista.forEach(o=>{
+   html += `<div class='card'><pre>${o.texto}</pre></div>`;
+ });
+ document.getElementById('listaOrcamentos').innerHTML = html || 'Nenhum orçamento salvo.';
+}
+</script>
+</body>
+</html>
