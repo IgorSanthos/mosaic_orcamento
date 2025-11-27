@@ -1,0 +1,100 @@
+/* src/index.css - tema global Billdu */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root{
+  --bg:#f0f2f5;
+  --card:#ffffff;
+  --muted:#6b7280;
+  --primary:#1a73e8;
+  --success:#27ae60;
+  --warning:#f59e0b;
+  --danger:#d9534f;
+  --radius:12px;
+}
+
+* { box-sizing: border-box; }
+html,body,#root { height:100%; }
+body{
+  margin:0;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: #111827;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  font-size:15px;
+}
+
+.container {
+  max-width:1100px;
+  margin: 28px auto;
+  padding: 24px;
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: 0 6px 22px rgba(16,24,40,0.06);
+  padding: 22px;
+}
+
+.header-row {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:18px;
+}
+
+.brand {
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+
+.brand img { width:48px; height:48px; object-fit:contain; border-radius:8px; }
+.brand h1 { margin:0; font-size:20px; letter-spacing:-0.2px; }
+
+.subtitle { color:var(--muted); margin-top:6px; font-size:13px; }
+
+.form-row { display:flex; gap:12px; flex-wrap:wrap; }
+.input, textarea, select {
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid #e6e9ef;
+  background: #fff;
+  font-size:14px;
+  color: #111827;
+}
+
+.input-sm { width:160px; }
+.textarea-md { height:100px; }
+
+.table { width:100%; border-collapse:collapse; margin-top:12px; }
+.table th { text-align:left; padding:10px; background:#fafafa; font-weight:600; font-size:13px; border-bottom:1px solid #eef2f6; }
+.table td { padding:10px; border-bottom:1px solid #f3f6f9; vertical-align:top; }
+
+.btn {
+  display:inline-block;
+  padding:10px 16px;
+  border-radius:10px;
+  border:none;
+  color:#fff;
+  background:var(--primary);
+  cursor:pointer;
+  font-weight:600;
+  font-size:14px;
+  text-decoration:none;
+}
+
+.btn + .btn { margin-left:10px; }
+
+.btn-ghost { background:transparent; color:var(--primary); border:1px solid rgba(26,115,232,0.12); }
+
+.btn-success { background:var(--success); }
+.btn-warning { background:var(--warning); }
+.btn-danger  { background:var(--danger); }
+
+.small-muted { color:var(--muted); font-size:13px; }
+
+.footer-actions { margin-top:18px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
