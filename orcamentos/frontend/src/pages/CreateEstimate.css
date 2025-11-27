@@ -1,0 +1,9 @@
+/* Estilos para a página CreateEstimate */
+
+.obs-label {
+  font-weight: 600;
+}
+
+.obs-textarea {
+  margin-bottom: 12px;
+}

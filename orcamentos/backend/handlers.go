@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-
+	"strings"
+	
 	"github.com/gorilla/mux"
 	"gorm.io/gorm"
 )
@@ -118,7 +119,7 @@ func DeleteEstimateHandler(w http.ResponseWriter, r *http.Request) {
 func BuildEstimateMessage(e *Estimate) string {
 	msg := "Segue proposta:\n\n"
 	for i, it := range e.Items {
-		msg += fmt.Sprintf("Item %d - \"%s\" - %s\n", i+1, it.Title, it.Specs)
+		msg += fmt.Sprintf("Item %d - \"%s\"\n", i+1, it.Title)
 		msg += fmt.Sprintf("%d unidades (R$ %.2f un.)\n", it.Quantity, it.UnitPrice)
 		msg += fmt.Sprintf("Valor Total - R$ %.2f\n\n", it.Subtotal)
 	}

@@ -1,0 +1,16 @@
+/* Estilos para a página ViewEstimate */
+.view-details {
+  margin-bottom: 12px;
+}
+
+.view-item-qty {
+  width: 80px;
+}
+
+.view-item-price {
+  width: 140px;
+}
+
+.view-footer {
+  margin-top: 14px;
+}

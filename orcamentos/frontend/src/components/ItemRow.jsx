@@ -21,13 +21,7 @@ export default function ItemRow({ index, item, updateItem }) {
           value={item.title}
           placeholder="Descrição"
           onChange={(e) => updateItem(index, "title", e.target.value)}
-          style={{ width: "180px" }}
-        />
-        <input
-          value={item.specs}
-          placeholder="Detalhes"
-          onChange={(e) => updateItem(index, "specs", e.target.value)}
-          style={{ width: "180px", marginTop: "5px" }}
+          style={{ width: "100%", minWidth: "250px" }}
         />
       </td>
 

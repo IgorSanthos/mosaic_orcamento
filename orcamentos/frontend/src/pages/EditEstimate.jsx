@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import "./EditEstimate.css";
 
 export default function EditEstimate() {
   const { id } = useParams();
@@ -116,115 +117,64 @@ export default function EditEstimate() {
   return (
     <Layout title="Editar Orçamento" subtitle="Alterar dados e itens do orçamento">
       
-      <h3 style={sectionTitle}>Dados do Cliente</h3>
-      <div style={card}>
+      <h3 className="edit-section-title">Dados do Cliente</h3>
+      <div className="edit-card">
         <label>Cliente</label>
-        <input value={clientName} onChange={(e) => setClientName(e.target.value)} style={input} />
+        <input value={clientName} onChange={(e) => setClientName(e.target.value)} className="edit-input" />
 
         <label>Produção</label>
-        <input value={productionEta} onChange={(e) => setProductionEta(e.target.value)} style={input} />
+        <input value={productionEta} onChange={(e) => setProductionEta(e.target.value)} className="edit-input" />
 
         <label>Pagamento</label>
-        <input value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} style={input} />
+        <input value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} className="edit-input" />
 
         <label>Validade</label>
         <input
           type="number"
           value={validityDays}
           onChange={(e) => setValidityDays(Number(e.target.value))}
-          style={input}
+          className="edit-input"
         />
 
         <label>Observações</label>
         <textarea
           value={obs}
           onChange={(e) => setObs(e.target.value)}
-          style={{ width: "100%", height: "80px", marginTop: "8px" }}
+          className="edit-input"
         />
       </div>
 
-      <h3 style={sectionTitle}>Itens</h3>
+      <h3 className="edit-section-title">Itens</h3>
 
       {items.map((it, i) => (
-        <div key={i} style={card}>
+        <div key={i} className="edit-card">
           <input
             placeholder="Título"
             value={it.title}
             onChange={(e) => updateItem(i, "title", e.target.value)}
-            style={input}
-          />
-          <input
-            placeholder="Especificações"
-            value={it.specs}
-            onChange={(e) => updateItem(i, "specs", e.target.value)}
-            style={input}
+            className="edit-input"
           />
           <input
             type="number"
             placeholder="Quantidade"
             value={it.quantity}
             onChange={(e) => updateItem(i, "quantity", Number(e.target.value))}
-            style={input}
+            className="edit-input"
           />
           <input
             type="number"
             placeholder="Valor Unitário"
             value={it.unit_price}
-            onChange={(e) =>
-              updateItem(i, "unit_price", Number(e.target.value))
-            }
-            style={input}
+            onChange={(e) => updateItem(i, "unit_price", Number(e.target.value))}
+            className="edit-input"
           />
         </div>
       ))}
 
-      <div style={{ marginTop: "25px" }}>
-        <button style={btnBlue} onClick={saveChanges}>Salvar Alterações</button>
-        <button style={btnGreen} onClick={generatePDF}>Gerar PDF</button>
+      <div className="edit-actions">
+        <button className="edit-btn blue" onClick={saveChanges}>Salvar Alterações</button>
+        <button className="edit-btn green" onClick={generatePDF}>Gerar PDF</button>
       </div>
     </Layout>
   );
 }
-
-const input = {
-  width: "100%",
-  padding: "10px",
-  borderRadius: "10px",
-  border: "1px solid #ccc",
-  marginTop: "8px",
-};
-
-const card = {
-  background: "#fff",
-  padding: "20px",
-  borderRadius: "16px",
-  marginBottom: "20px",
-  boxShadow: "0 3px 12px rgba(0,0,0,0.08)",
-};
-
-const sectionTitle = {
-  margin: "10px 0",
-  fontWeight: "bold",
-  fontSize: "20px",
-};
-
-const btnBlue = {
-  background: "#1a73e8",
-  padding: "14px 30px",
-  color: "#fff",
-  borderRadius: "10px",
-  border: "none",
-  fontSize: "16px",
-  cursor: "pointer",
-  marginRight: "12px",
-};
-
-const btnGreen = {
-  background: "#27ae60",
-  padding: "14px 30px",
-  color: "#fff",
-  borderRadius: "10px",
-  border: "none",
-  fontSize: "16px",
-  cursor: "pointer",
-};

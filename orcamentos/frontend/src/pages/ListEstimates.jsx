@@ -31,6 +31,7 @@ export default function ListEstimates() {
       <table style={{ width: "100%", borderCollapse: "collapse", marginTop: "20px" }}>
         <thead>
           <tr>
+            <th style={header}>#</th>
             <th style={header}>ID</th>
             <th style={header}>Cliente</th>
             <th style={header}>Data</th>
@@ -39,8 +40,9 @@ export default function ListEstimates() {
           </tr>
         </thead>
         <tbody>
-          {estimates.map(est => (
+          {estimates.map((est, index) => (
             <tr key={est.id}>
+              <td style={cell}>{index + 1}</td>
               <td style={cell}>{est.id}</td>
               <td style={cell}>{est.client_name}</td>
               <td style={cell}>{new Date(est.created_at).toLocaleDateString('pt-BR')}</td>

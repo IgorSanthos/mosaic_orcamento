@@ -6,17 +6,17 @@ import ItemTable from "../components/ItemTable";
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import "./CreateEstimate.css";
 
 export default function CreateEstimate() {
   const [clientName, setClientName] = useState("");
   const [productionEta, setProductionEta] = useState("3 a 4 dias");
   const [paymentMethod, setPaymentMethod] = useState("PIX");
-  const [validityDays, setValidityDays] = useState(7);
   const [obs, setObs] = useState("");
 
-  const [items, setItems] = useState([{ title:"Revista de Receitas AVIVA", specs:"21cm x 29,7cm - Miolo 14págs - Couche 150g - Impressão Digital (4x4)", quantity:25, unit_price:15.75 }]);
+  const [items, setItems] = useState([{ title:"Revista de Receitas AVIVA - 21x29,7cm - Miolo 14págs - Couche 150g", quantity:25, unit_price:15.75 }]);
 
-  function addItem(){ setItems([...items, { title:"", specs:"", quantity:1, unit_price:0 }]); }
+  function addItem(){ setItems([...items, { title:"", quantity:1, unit_price:0 }]); }
   function updateItem(index, field, value){ const arr=[...items]; arr[index][field]=value; setItems(arr); }
 
   const total = items.reduce((s,it)=>s + (it.quantity||0)*(it.unit_price||0), 0);
@@ -24,7 +24,7 @@ export default function CreateEstimate() {
   const finalMessage =
 `Segue proposta:
 
-${items.map((it,i)=>`Item ${i+1} - "${it.title}" - ${it.specs}
+${items.map((it,i)=>`Item ${i+1} - "${it.title}"
 ${it.quantity} unidades (R$ ${it.unit_price.toFixed(2)} un.)
 Subtotal: R$ ${(it.quantity*it.unit_price).toFixed(2)}`).join("\n\n")}
 
@@ -42,11 +42,10 @@ R$ ${total.toFixed(2)}
       client_name: clientName,
       production_eta: productionEta,
       payment_method: paymentMethod,
-      validity_days: validityDays,
       observations: obs,
-      items: items.map(it=>({ title:it.title, specs:it.specs, quantity:it.quantity, unit_price:it.unit_price }))
+      items: items.map(it=>({ title:it.title, quantity:it.quantity, unit_price:it.unit_price }))
     };
-    fetch("http://localhost:8080/api/estimates", {
+    fetch("https://mosaic-orcamento.onrender.com/api/estimates", {
       method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload)
     }).then(r=>r.json()).then(res=>{
       alert("Orçamento salvo!");
@@ -66,7 +65,6 @@ R$ ${total.toFixed(2)}
       doc.text(`Cliente: ${clientName}`, 14, 46);
       doc.text(`Produção: ${productionEta}`, 14, 54);
       doc.text(`Pagamento: ${paymentMethod}`, 14, 62);
-      doc.text(`Validade: ${validityDays} dias`, 14, 70);
       doc.text(`Observações: ${obs}`, 14, 78);
 
       const tableData = items.map(it => [it.quantity, it.title, `R$ ${it.unit_price.toFixed(2)}`, `R$ ${(it.quantity*it.unit_price).toFixed(2)}`]);
@@ -79,17 +77,16 @@ R$ ${total.toFixed(2)}
   };
 
   return (
-    <Layout title="Criar Orçamento" subtitle="Crie e exporte propostas rápidas">
+    <Layout title="CRIAR ORÇAMENTO" subtitle="Crie e exporte propostas rápidas">
       <ClientForm
         clientName={clientName} setClientName={setClientName}
         productionEta={productionEta} setProductionEta={setProductionEta}
         paymentMethod={paymentMethod} setPaymentMethod={setPaymentMethod}
-        validityDays={validityDays} setValidityDays={setValidityDays}
       />
 
-      <div style={{ marginBottom: 12 }}>
-        <label style={{ fontWeight:600 }}>Observações</label>
-        <textarea className="input textarea-md" value={obs} onChange={e=>setObs(e.target.value)} />
+      <div className="obs-textarea">
+        <label className="obs-label">Observações</label>
+        <textarea className="input textarea-md" value={obs} onChange={e => setObs(e.target.value)} />
       </div>
 
       <ItemTable items={items} updateItem={updateItem} addItem={addItem} />

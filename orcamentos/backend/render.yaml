@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: mosaic-orcamentos-api
+    runtime: go
+    buildCommand: ""
+    startCommand: "./backend"
+    plan: free
+    rootDir: ./backend
+    envVars:
+      - key: DATABASE_URL
+        sync: false

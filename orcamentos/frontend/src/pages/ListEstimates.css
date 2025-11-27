@@ -1,0 +1,44 @@
+/* Estilos para a página ListEstimates */
+.list-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.list-header {
+  background: #f1f1f1;
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+  text-align: left;
+  font-weight: 600;
+}
+
+.list-cell {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.list-btn {
+  padding: 6px 12px;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-right: 8px;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.list-btn.view {
+  background: var(--primary);
+}
+
+.list-btn.edit {
+  background: var(--warning);
+}
+
+.list-btn.delete {
+  background: var(--danger);
+}

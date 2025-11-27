@@ -15,7 +15,7 @@
 * { box-sizing: border-box; }
 html,body,#root { height:100%; }
 body{
-  margin:0;
+  
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   background: var(--bg);
   color: #111827;
@@ -51,8 +51,9 @@ body{
   align-items:center;
 }
 
-.brand img { width:48px; height:48px; object-fit:contain; border-radius:8px; }
-.brand h1 { margin:0; font-size:20px; letter-spacing:-0.2px; }
+.brand img { width:250px; height:250px; object-fit:contain; border-radius:8px; }
+
+.brand h1 {font-size:40px; letter-spacing:-0.2px; }
 
 .subtitle { color:var(--muted); margin-top:6px; font-size:13px; }
 
@@ -98,3 +99,16 @@ body{
 .small-muted { color:var(--muted); font-size:13px; }
 
 .footer-actions { margin-top:18px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+
+
+label {
+  display: block;
+    font-size: 1.17em;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+    unicode-bidi: isolate;
+}
+
