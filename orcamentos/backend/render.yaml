@@ -2,10 +2,10 @@ services:
   - type: web
     name: mosaic-orcamentos-api
     runtime: go
-    buildCommand: ""
-    startCommand: "./backend"
+    rootDir: backend
+    buildCommand: go build -tags netgo -ldflags "-s -w" -o app .
+    startCommand: ./app
     plan: free
-    rootDir: ./backend
     envVars:
       - key: DATABASE_URL
         sync: false
