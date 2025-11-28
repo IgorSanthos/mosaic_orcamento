@@ -7,7 +7,7 @@ export default function ListEstimates() {
   const [estimates, setEstimates] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/estimates")
+    fetch(`${import.meta.env.VITE_API_URL}/api/estimates`)
       .then(res => res.json())
       .then(data => setEstimates(data))
       .catch(err => console.error("Erro ao carregar orçamentos:", err));
@@ -16,7 +16,7 @@ export default function ListEstimates() {
   function handleDelete(id) {
     if (!confirm("Tem certeza que deseja excluir este orçamento?")) return;
 
-    fetch(`http://localhost:8080/api/estimates/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/estimates/${id}`, {
       method: "DELETE"
     })
       .then(() => {

@@ -10,7 +10,7 @@ export default function ViewEstimate(){
   const [message, setMessage] = useState("");
 
   useEffect(()=> {
-    fetch(`http://localhost:8080/api/estimates/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/estimates/${id}`)
       .then(r=>r.json()).then(data=>{
         setEstimate(data.estimate);
         setMessage(data.message || "");

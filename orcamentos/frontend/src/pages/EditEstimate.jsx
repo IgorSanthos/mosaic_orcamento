@@ -20,7 +20,7 @@ export default function EditEstimate() {
 
   // Carregar orçamento
   useEffect(() => {
-    fetch(`http://localhost:8080/api/estimates/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/estimates/${id}`)
       .then((res) => res.json())
       .then((data) => {
         const e = data.estimate;
@@ -50,7 +50,7 @@ export default function EditEstimate() {
       items,
     };
 
-    fetch(`http://localhost:8080/api/estimates/${id}`, {
+    fetch(`${import.meta.env.VITE_API_URL}/api/estimates/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
