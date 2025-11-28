@@ -15,16 +15,19 @@ func main() {
 	// Router principal
 	r := mux.NewRouter()
 
+	// Preflight global (todas as rotas)
+	r.Methods(http.MethodOptions).HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "https://mosaic-orcamento-front.onrender.com")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+		w.WriteHeader(http.StatusOK)
+	})
+
 	// Middleware CORS
 	r.Use(simpleCORS)
 
 	// Grupo /api
 	api := r.PathPrefix("/api").Subrouter()
-
-	// 🔥 Suporte para preflight OPTIONS em todas as rotas
-	api.Methods(http.MethodOptions).HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-	})
 
 	// Rotas da API
 	api.HandleFunc("/estimates", CreateEstimateHandler).Methods("POST")
@@ -43,12 +46,13 @@ func main() {
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }
 
-// CORS COMPLETO PARA FUNCIONAR COM REACT
+// CORS COMPLETO PARA FUNCIONAR COM REACT NO RENDER
 func simpleCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		// Libera acesso do frontend
-		w.Header().Set("Access-Control-Allow-Origin", "*")
+		// Origem permitida (seu frontend)
+		w.Header().Set("Access-Control-Allow-Origin", "https://mosaic-orcamento-front.onrender.com")
+		w.Header().Set("Vary", "Origin")
 
 		// Headers permitidos
 		w.Header().Set("Access-Control-Allow-Headers",
@@ -58,7 +62,7 @@ func simpleCORS(next http.Handler) http.Handler {
 		w.Header().Set("Access-Control-Allow-Methods",
 			"GET, POST, PUT, DELETE, OPTIONS")
 
-		// Responde o preflight sem bloquear
+		// Preflight
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusOK)
 			return
