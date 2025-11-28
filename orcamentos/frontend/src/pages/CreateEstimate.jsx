@@ -45,7 +45,7 @@ R$ ${total.toFixed(2)}
       observations: obs,
       items: items.map(it=>({ title:it.title, quantity:it.quantity, unit_price:it.unit_price }))
     };
-    fetch("https://mosaic-orcamento.onrender.com/api/estimates", {
+    fetch("https://mosaic-orcamento-saas.onrender.com/api/estimates", {
       method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload)
     }).then(r=>r.json()).then(res=>{
       alert("Orçamento salvo!");
