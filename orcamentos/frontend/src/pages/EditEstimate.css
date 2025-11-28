@@ -1,44 +1,36 @@
 /* Estilos para a página EditEstimate */
-.edit-input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  margin-top: 8px;
+.edit-estimate-page {
+  padding: 20px;
 }
 
 .edit-card {
   background: #fff;
   padding: 20px;
-  border-radius: 16px;
+  border-radius: var(--radius);
   margin-bottom: 20px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .edit-section-title {
-  margin: 10px 0;
-  font-weight: bold;
-  font-size: 20px;
-}
-
-.edit-btn {
-  padding: 14px 30px;
-  color: #fff;
-  border-radius: 10px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-  margin-right: 12px;
-}
-
-.edit-btn.blue {
-  background: var(--primary);
-}
-
-.edit-btn.green {
-  background: var(--success);
+  margin: 0 0 16px 0;
+  font-weight: 600;
+  font-size: 18px;
 }
 
 .edit-actions {
-  margin-top: 25px;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Notebook and larger screens */
+@media (min-width: 768px) {
+  .edit-estimate-page {
+    padding: 0;
+  }
+
+  .edit-actions {
+    flex-direction: row;
+    align-items: center;
+  }
 }

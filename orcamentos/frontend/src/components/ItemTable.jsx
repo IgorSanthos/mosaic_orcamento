@@ -1,27 +1,43 @@
 // src/components/ItemTable.jsx
 import React from "react";
 import ItemRow from "./ItemRow";
+import "./ItemTable.css";
 
-export default function ItemTable({ items, updateItem, addItem }) {
+export default function ItemTable({ items, updateItem, addItem, removeItem }) {
   return (
-    <div style={{ marginTop: 12 }}>
-      <h3 style={{ marginBottom: 8 }}>Itens</h3>
-      <table className="table">
-        <thead>
-          <tr>
-            <th style={{ width:80 }}>QUANT.</th>
-            <th>DESCRIÇÃO</th>
-            <th style={{ width:140 }}>VALOR</th>
-            <th style={{ width:140 }}>TOTAL</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((it, i) => <ItemRow key={i} index={i} item={it} updateItem={updateItem} />)}
-        </tbody>
-      </table>
+    <div className="item-table-container">
+      <h3 className="item-table-title">Itens</h3>
+      <div className="table-container">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>DESCRIÇÃO</th>
+              <th>QUANT.</th>
+              <th>VALOR</th>
+              <th>TOTAL</th>
+              <th>CUSTO</th>
+              <th>CUSTO TOTAL</th>
+              <th>L.LIQUIDO</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((it, i) => (
+              <ItemRow
+                key={i}
+                index={i}
+                item={it}
+                updateItem={updateItem}
+                removeItem={removeItem}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      <div style={{ marginTop: 10 }}>
-        <button className="btn btn-ghost" onClick={addItem}>+ Adicionar Item</button>
+      <div className="item-table-actions">
+        <button className="btn btn-ghost" onClick={addItem}>
+          + Adicionar Item
+        </button>
       </div>
     </div>
   );

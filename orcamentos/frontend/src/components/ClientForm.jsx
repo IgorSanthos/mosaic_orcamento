@@ -1,5 +1,6 @@
 // src/components/ClientForm.jsx
 import React from "react";
+import "./ClientForm.css";
 
 export default function ClientForm({
   clientName, setClientName,
@@ -7,15 +8,15 @@ export default function ClientForm({
   paymentMethod, setPaymentMethod
 }) {
   return (
-    <div style={{ marginBottom: 18 }}>
-      <h3 style={{ margin: 0, marginBottom: 8 }}>Dados do Cliente</h3>
+    <div className="client-form">
+      <h3 className="client-form-title">Dados do Cliente</h3>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+      <div className="client-form-grid">
         <input className="input" placeholder="Nome do cliente" value={clientName} onChange={e => setClientName(e.target.value)} />
         <div></div>
         <div>
           <label className="label">Prazo</label>
-          <input className="input input-sm" placeholder="Prazo (ex: 3 a 4 dias)" value={productionEta} onChange={e => setProductionEta(e.target.value)} />
+          <input className="input" placeholder="Prazo (ex: 3 a 4 dias)" value={productionEta} onChange={e => setProductionEta(e.target.value)} />
         </div>
         <div>
           <label className="label">Forma de pagamento</label>

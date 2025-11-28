@@ -1,5 +1,7 @@
+// src/components/ItemRow.jsx
+import "./ItemRow.css";
 
-export default function ItemRow({ index, item, updateItem }) {
+export default function ItemRow({ index, item, updateItem, removeItem }) {
   const total = (item.quantity || 0) * (item.unit_price || 0);
   const totalCost = (item.quantity || 0) * (item.cost || 0);
   const profit = total - totalCost;
@@ -7,55 +9,51 @@ export default function ItemRow({ index, item, updateItem }) {
 
   return (
     <tr>
-      <td style={{ padding: "8px", borderBottom: "1px solid #eee" }}>
-        <input
-          type="number"
-          value={item.quantity}
-          onChange={(e) => updateItem(index, "quantity", Number(e.target.value))}
-          style={{ width: "60px" }}
-        />
-      </td>
-
-      <td style={{ padding: "8px", borderBottom: "1px solid #eee" }}>
+      <td data-label="DESCRIÇÃO">
         <input
           value={item.title}
           placeholder="Descrição"
           onChange={(e) => updateItem(index, "title", e.target.value)}
-          style={{ width: "100%", minWidth: "250px" }}
+          className="item-row-input item-row-description"
         />
       </td>
 
-      <td style={{ padding: "8px", borderBottom: "1px solid #eee" }}>
+      <td data-label="QUANT.">
+        <input
+          type="number"
+          value={item.quantity}
+          onChange={(e) => updateItem(index, "quantity", Number(e.target.value))}
+          className="item-row-input"
+        />
+      </td>
+
+      <td data-label="VALOR">
         <input
           type="number"
           value={item.unit_price}
           onChange={(e) => updateItem(index, "unit_price", Number(e.target.value))}
-          style={{ width: "80px" }}
+          className="item-row-input"
         />
       </td>
 
-      <td style={{ padding: "8px", borderBottom: "1px solid #eee" }}>
+      <td data-label="TOTAL">
         R$ {total.toFixed(2).replace('.',',')}
       </td>
 
-      <td style={{ padding: "8px", borderBottom: "1px solid #eee" }}>
+      <td data-label="CUSTO">
         <input
           type="number"
           value={item.cost || ''}
           onChange={(e) => updateItem(index, "cost", Number(e.target.value))}
-          style={{ width: "80px" }}
+          className="item-row-input"
         />
       </td>
 
-      <td style={{ padding: "8px", borderBottom: "1px solid #eee" }}>
+      <td data-label="CUSTO TOTAL">
         R$ {(totalCost || 0).toFixed(2).replace('.',',')}
       </td>
 
-      <td style={{ padding: "8px", borderBottom: "1px solid #eee" }}>
-        R$ {profit.toFixed(2).replace('.',',')}
-      </td>
-
-      <td style={{ padding: "8px", borderBottom: "1px solid #eee" }}>
+      <td data-label="L.LIQUIDO">
         R$ {profitAfterNfe.toFixed(2).replace('.',',')}
       </td>
     </tr>

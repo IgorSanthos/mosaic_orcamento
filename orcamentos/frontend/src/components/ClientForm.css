@@ -1,0 +1,25 @@
+/* frontend/src/components/ClientForm.css */
+
+.client-form {
+  margin-bottom: 24px;
+}
+
+.client-form-title {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.client-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* Notebook and larger screens */
+@media (min-width: 768px) {
+  .client-form-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+}

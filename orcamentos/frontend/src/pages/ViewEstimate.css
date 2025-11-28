@@ -1,16 +1,58 @@
 /* Estilos para a página ViewEstimate */
+.view-estimate-page {
+  padding: 20px;
+}
+
+.view-header {
+  margin-bottom: 24px;
+}
+
 .view-details {
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.view-details p {
+  margin: 0 0 8px 0;
+  font-size: 15px;
+}
+
+.view-details strong {
+  font-weight: 600;
 }
 
 .view-item-qty {
-  width: 80px;
+  width: auto;
 }
 
 .view-item-price {
-  width: 140px;
+  width: auto;
 }
 
 .view-footer {
-  margin-top: 14px;
+  margin-top: 24px;
+  text-align: right;
+}
+
+.view-total {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* Notebook and larger screens */
+@media (min-width: 768px) {
+  .view-estimate-page {
+    padding: 0;
+  }
+
+  .view-header {
+    margin-bottom: 30px;
+  }
+
+  .view-details {
+    margin-bottom: 20px;
+  }
+
+  .view-total {
+    font-size: 20px;
+  }
 }

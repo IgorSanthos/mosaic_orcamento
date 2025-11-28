@@ -1,0 +1,128 @@
+/*
+  General styles for the item table, including inputs.
+  This file combines styles from ItemRow.css for a single source of truth.
+*/
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px; /* Adiciona espaço vertical entre as linhas */
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  font-size: clamp(0.8rem, 1.2vw, 1rem);
+  color: #666;
+  text-transform: uppercase;
+}
+
+.table td {
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem) !important; /* Sobrescreve outros estilos */
+  background: #f9f9f9;
+}
+
+/* Arredondar cantos da linha */
+.table tr td:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.table tr td:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+
+/* --- Input Styles --- */
+
+.item-row-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  transition: border-color 0.2s;
+}
+
+.item-row-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* --- Column-specific widths --- */
+
+/* A coluna de descrição deve ser a mais larga */
+.table td:nth-child(1) {
+  width: 40%;
+}
+
+.item-row-description {
+  min-width: 100%; /* Ocupa todo o espaço do TD */
+}
+
+.item-row-input[type="number"] {
+  max-width: 90px; /* Um pouco mais de espaço que antes */
+}
+
+
+/* --- Mobile Responsiveness --- */
+
+@media (max-width: 768px) {
+  /* Esconde o cabeçalho da tabela no modo mobile */
+  .table thead {
+    display: none;
+  }
+
+  /* Transforma a linha em um "card" */
+  .table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    padding: 1rem;
+  }
+  
+  .table td,
+  .table tr td:first-child,
+  .table tr td:last-child {
+    border-radius: 0; /* Reseta o radius dos TDs dentro do card */
+    background: transparent; /* Reseta o background */
+  }
+
+  /* Cada célula se torna um bloco com label */
+  .table td {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0; /* Ajusta o padding vertical */
+    font-size: clamp(1rem, 4vw, 1.2rem) !important; /* Fontes maiores no mobile */
+  }
+
+  /* Gera o label a partir do 'data-label' attribute */
+  .table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 6px;
+    font-size: clamp(0.8rem, 3.5vw, 1rem);
+  }
+
+  /* Inputs ocupam toda a largura e têm mais padding */
+  .item-row-input,
+  .item-row-input[type="number"] {
+    width: 100%;
+    max-width: none; /* Remove a largura máxima para inputs numéricos */
+    padding: 12px;
+    font-size: clamp(1rem, 4vw, 1.1rem);
+  }
+
+  /* A coluna de descrição continua 100% */
+  .table td:nth-child(1) {
+    width: 100%;
+  }
+}

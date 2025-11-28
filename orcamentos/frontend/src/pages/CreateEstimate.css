@@ -1,9 +1,54 @@
 /* Estilos para a página CreateEstimate */
 
+.create-estimate-page {
+  padding: 20px;
+}
+.client-form-title{
+  font-size: clamp(1rem, 3vw, 1.6rem) !important;
+}
+
+h3{
+  font-size: clamp(1rem, 3vw, 1.6rem) !important;
+}
+
+label{
+  font-size: clamp(1rem, 3vw, 1.6rem) !important;
+}
+
+input {
+  font-size: clamp(1rem, 1.6vw, 1.6rem) !important;
+}
+
+
+
+button {
+  font-size: clamp(1rem, 1.6vw, 1.6rem) !important;
+}
+
+
+
+.small-muted {
+  font-size: clamp(1rem, 3vw, 1.6rem) !important;
+}
+
 .obs-label {
   font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
 }
 
 .obs-textarea {
-  margin-bottom: 12px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* Notebook and larger screens */
+@media (min-width: 768px) {
+  .create-estimate-page {
+    padding: 0;
+  }
+
+  .obs-textarea {
+    margin-bottom: 20px;
+  }
 }

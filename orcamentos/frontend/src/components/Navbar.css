@@ -1,0 +1,32 @@
+/* frontend/src/components/Navbar.css */
+
+.navbar {
+  background: var(--primary);
+  padding: 12px 20px;
+  margin-bottom: 20px;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Notebook and larger screens */
+@media (min-width: 768px) {
+  .navbar {
+    padding: 12px 28px;
+  }
+  
+  .nav-links {
+    flex-direction: row;
+    gap: 20px;
+  }
+}
