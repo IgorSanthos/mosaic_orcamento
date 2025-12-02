@@ -30,25 +30,28 @@ export default function CreateEstimate() {
 
   const total = items.reduce((s,it)=>s + (parseLocalFloat(it.quantity))*(parseLocalFloat(it.unit_price)), 0);
 
+  // mensagem de texto 
   const finalMessage =
-`Segue proposta:
+  `Segue proposta:
 
-${items.map((it,i)=>{
-  const quantity = parseLocalFloat(it.quantity);
-  const unit_price = parseLocalFloat(it.unit_price);
-  return `Item ${i+1} - "${it.title}"
-${quantity} unidades (R$ ${unit_price.toFixed(2)} un.)
-Subtotal: R$ ${(quantity*unit_price).toFixed(2)}`;
-}).join("\n\n")}
+  ${items.map((it, i) => {
+    const quantity = parseLocalFloat(it.quantity);
+    const unit_price = parseLocalFloat(it.unit_price);
+    return `_ITEM ${i + 1}_
+  "${it.title}"
+  *_${quantity} unidades (R$ ${unit_price.toFixed(2)} un)_* 
+  Valor TOTAL - *R$ ${(quantity * unit_price).toFixed(2)}*`;
+  }).join("\n\n")}
 
---------------------------
-Cliente: ${clientName}
-Data: ${new Date().toLocaleDateString()}
-Produção: ${productionEta}
+  --------------------------
+  *Cliente:* ${clientName}
+  *Data:* ${new Date().toLocaleDateString('pt-BR')}
+  *Produção:* ${productionEta}
 
-Valor total a pagar:
-R$ ${total.toFixed(2)}
-`;
+  *Valor total a pagar:*  
+  *R$ ${total.toFixed(2)}*
+  `;
+
 
   function saveEstimate(){
     const payload = {
