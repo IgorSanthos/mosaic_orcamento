@@ -63,6 +63,7 @@
 
 .item-row-description {
   min-width: 100%; /* Ocupa todo o espaço do TD */
+  height: 100px
 }
 
 .item-row-input[type="number"] {
@@ -73,6 +74,12 @@
 /* --- Mobile Responsiveness --- */
 
 @media (max-width: 768px) {
+
+    .table {
+    padding: 5px;
+    
+  }
+
   /* Esconde o cabeçalho da tabela no modo mobile */
   .table thead {
     display: none;
@@ -100,7 +107,7 @@
     display: flex;
     flex-direction: column;
     padding: 8px 0; /* Ajusta o padding vertical */
-    font-size: clamp(1rem, 4vw, 1.2rem) !important; /* Fontes maiores no mobile */
+    font-size:1.6rem !important; /* Fontes maiores no mobile */
   }
 
   /* Gera o label a partir do 'data-label' attribute */
@@ -109,8 +116,9 @@
     font-weight: bold;
     color: #333;
     margin-bottom: 6px;
-    font-size: clamp(0.8rem, 3.5vw, 1rem);
+    font-size: 1.6rem;
   }
+  
 
   /* Inputs ocupam toda a largura e têm mais padding */
   .item-row-input,
@@ -118,7 +126,8 @@
     width: 100%;
     max-width: none; /* Remove a largura máxima para inputs numéricos */
     padding: 12px;
-    font-size: clamp(1rem, 4vw, 1.1rem);
+    font-size: 1.6rem !important;
+    
   }
 
   /* A coluna de descrição continua 100% */

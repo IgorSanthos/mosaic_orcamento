@@ -30,15 +30,3 @@
   background: var(--danger);
 }
 
-/* Notebook and larger screens */
-@media (min-width: 768px) {
-  .list-actions {
-    flex-direction: row;
-    gap: 10px;
-  }
-
-  .list-btn {
-    padding: 6px 12px;
-    font-size: 14px;
-  }
-}

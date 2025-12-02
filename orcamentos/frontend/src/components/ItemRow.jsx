@@ -1,16 +1,28 @@
 // src/components/ItemRow.jsx
-import "./ItemRow.css";
+
+const parseLocalFloat = (val) => {
+    const v = val ?? ''; // Garante que não é nulo ou indefinido
+    if (typeof v === 'string') {
+        // Substitui a vírgula por ponto e converte para float, ou retorna 0 se inválido
+        return parseFloat(v.replace(',', '.')) || 0;
+    }
+    return v || 0;
+}
 
 export default function ItemRow({ index, item, updateItem, removeItem }) {
-  const total = (item.quantity || 0) * (item.unit_price || 0);
-  const totalCost = (item.quantity || 0) * (item.cost || 0);
+  const quantity = parseLocalFloat(item.quantity);
+  const unit_price = parseLocalFloat(item.unit_price);
+  const cost = parseLocalFloat(item.cost);
+
+  const total = quantity * unit_price;
+  const totalCost = quantity * cost;
   const profit = total - totalCost;
   const profitAfterNfe = profit * 0.93;
 
   return (
     <tr>
       <td data-label="DESCRIÇÃO">
-        <input
+        <textarea
           value={item.title}
           placeholder="Descrição"
           onChange={(e) => updateItem(index, "title", e.target.value)}
@@ -20,18 +32,18 @@ export default function ItemRow({ index, item, updateItem, removeItem }) {
 
       <td data-label="QUANT.">
         <input
-          type="number"
-          value={item.quantity}
-          onChange={(e) => updateItem(index, "quantity", Number(e.target.value))}
+          type="text"
+          value={item.quantity ?? ''}
+          onChange={(e) => updateItem(index, "quantity", e.target.value)}
           className="item-row-input"
         />
       </td>
 
       <td data-label="VALOR">
         <input
-          type="number"
-          value={item.unit_price}
-          onChange={(e) => updateItem(index, "unit_price", Number(e.target.value))}
+          type="text"
+          value={item.unit_price ?? ''}
+          onChange={(e) => updateItem(index, "unit_price", e.target.value)}
           className="item-row-input"
         />
       </td>
@@ -42,9 +54,9 @@ export default function ItemRow({ index, item, updateItem, removeItem }) {
 
       <td data-label="CUSTO">
         <input
-          type="number"
-          value={item.cost || ''}
-          onChange={(e) => updateItem(index, "cost", Number(e.target.value))}
+          type="text"
+          value={item.cost ?? ''}
+          onChange={(e) => updateItem(index, "cost", e.target.value)}
           className="item-row-input"
         />
       </td>

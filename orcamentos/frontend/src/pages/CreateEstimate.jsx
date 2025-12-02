@@ -8,6 +8,15 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import "./CreateEstimate.css";
 
+const parseLocalFloat = (val) => {
+    const v = val ?? ''; // Garante que não é nulo ou indefinido
+    if (typeof v === 'string') {
+        // Substitui a vírgula por ponto e converte para float, ou retorna 0 se inválido
+        return parseFloat(v.replace(',', '.')) || 0;
+    }
+    return v || 0;
+}
+
 export default function CreateEstimate() {
   const [clientName, setClientName] = useState("");
   const [productionEta, setProductionEta] = useState("3 a 4 dias");
@@ -19,14 +28,18 @@ export default function CreateEstimate() {
   function addItem(){ setItems([...items, { title:"", quantity:1, unit_price:0 }]); }
   function updateItem(index, field, value){ const arr=[...items]; arr[index][field]=value; setItems(arr); }
 
-  const total = items.reduce((s,it)=>s + (it.quantity||0)*(it.unit_price||0), 0);
+  const total = items.reduce((s,it)=>s + (parseLocalFloat(it.quantity))*(parseLocalFloat(it.unit_price)), 0);
 
   const finalMessage =
 `Segue proposta:
 
-${items.map((it,i)=>`Item ${i+1} - "${it.title}"
-${it.quantity} unidades (R$ ${it.unit_price.toFixed(2)} un.)
-Subtotal: R$ ${(it.quantity*it.unit_price).toFixed(2)}`).join("\n\n")}
+${items.map((it,i)=>{
+  const quantity = parseLocalFloat(it.quantity);
+  const unit_price = parseLocalFloat(it.unit_price);
+  return `Item ${i+1} - "${it.title}"
+${quantity} unidades (R$ ${unit_price.toFixed(2)} un.)
+Subtotal: R$ ${(quantity*unit_price).toFixed(2)}`;
+}).join("\n\n")}
 
 --------------------------
 Cliente: ${clientName}
@@ -43,7 +56,7 @@ R$ ${total.toFixed(2)}
       production_eta: productionEta,
       payment_method: paymentMethod,
       observations: obs,
-      items: items.map(it=>({ title:it.title, quantity:it.quantity, unit_price:it.unit_price }))
+      items: items.map(it=>({ title:it.title, quantity:parseLocalFloat(it.quantity), unit_price:parseLocalFloat(it.unit_price) }))
     };
     fetch("https://mosaic-orcamento-saas.onrender.com/api/estimates", {
       method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(payload)
@@ -67,7 +80,11 @@ R$ ${total.toFixed(2)}
       doc.text(`Pagamento: ${paymentMethod}`, 14, 62);
       doc.text(`Observações: ${obs}`, 14, 78);
 
-      const tableData = items.map(it => [it.quantity, it.title, `R$ ${it.unit_price.toFixed(2)}`, `R$ ${(it.quantity*it.unit_price).toFixed(2)}`]);
+      const tableData = items.map(it => {
+        const quantity = parseLocalFloat(it.quantity);
+        const unit_price = parseLocalFloat(it.unit_price);
+        return [quantity, it.title, `R$ ${unit_price.toFixed(2)}`, `R$ ${(quantity*unit_price).toFixed(2)}`];
+      });
 
       autoTable(doc, { head:[["Qtd","Descrição","Valor Unit.","Subtotal"]], body:tableData, startY: 90 });
       doc.setFontSize(14);

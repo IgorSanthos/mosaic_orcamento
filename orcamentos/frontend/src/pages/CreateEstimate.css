@@ -4,7 +4,7 @@
   padding: 20px;
 }
 .client-form-title{
-  font-size: clamp(1rem, 3vw, 1.6rem) !important;
+  font-size: clamp(1rem, 3vw, 1.6rem);
 }
 
 h3{
@@ -22,7 +22,7 @@ input {
 
 
 button {
-  font-size: clamp(1rem, 1.6vw, 1.6rem) !important;
+  font-size: 1.6rem !important;
 }
 
 
@@ -40,15 +40,4 @@ button {
 .obs-textarea {
   width: 100%;
   margin-bottom: 16px;
-}
-
-/* Notebook and larger screens */
-@media (min-width: 768px) {
-  .create-estimate-page {
-    padding: 0;
-  }
-
-  .obs-textarea {
-    margin-bottom: 20px;
-  }
 }

@@ -6,14 +6,13 @@
 
 .client-form-title {
   margin: 0 0 16px 0;
-  font-size: 18px;
   font-weight: 600;
 }
 
 .client-form-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 10px;
 }
 
 /* Notebook and larger screens */

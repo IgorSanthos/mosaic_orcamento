@@ -37,22 +37,3 @@
   font-size: 18px;
   font-weight: 600;
 }
-
-/* Notebook and larger screens */
-@media (min-width: 768px) {
-  .view-estimate-page {
-    padding: 0;
-  }
-
-  .view-header {
-    margin-bottom: 30px;
-  }
-
-  .view-details {
-    margin-bottom: 20px;
-  }
-
-  .view-total {
-    font-size: 20px;
-  }
-}

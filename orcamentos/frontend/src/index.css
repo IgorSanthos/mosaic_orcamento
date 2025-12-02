@@ -114,7 +114,6 @@ input[type="number"]::-webkit-outer-spin-button {
   background: var(--primary);
   cursor: pointer;
   font-weight: 600;
-  
   text-decoration: none;
   text-align: center;
   width: 100%;
@@ -131,7 +130,7 @@ input[type="number"]::-webkit-outer-spin-button {
   border: 1px solid var(--primary);
 }
 
-.btn-success { background: var(--success); }
+.btn-success { background: var(--success);}
 .btn-warning { background: var(--warning); }
 .btn-danger { background: var(--danger); }
 
@@ -156,56 +155,40 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 
-/* Notebook and larger screens */
-@media (min-width: 768px) {
-  .container {
-    padding: 28px;
+/* CELULAR — deixar maior para evitar zoom */
+@media (max-width: 767px) {
+
+  .container{
+    padding: 2px;
+  }
+  .card{
+    background-color: #cfd5de;
+    padding: 10px;
   }
 
-  .card {
-    padding: 24px;
+  h1{
+    font-size: 2rem;  
   }
 
-  .header-row {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  .client-form-title{
+    font-size: 1.6rem !important;
   }
 
-  .brand img {
-    width: 250px;
-    height: 250px;
+  .input{
+    font-size: 1.6rem !important;
   }
-
-
-  .subtitle {
-    
-    margin-top: 6px;
+  .label  {
+    font-size: 1.6rem !important;
   }
-
-  .form-row {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 12px;
+  
+  .obs-label{
+    font-size: 1.6rem !important;
   }
-
-  .input-sm {
-    width: 160px;
+  .small-muted{
+    font-size: 1.6rem !important;
   }
-
-  .btn {
-    width: auto;
-  }
-
-  .btn + .btn {
-    margin-top: 0;
-    margin-left: 10px;
-  }
-
-  .footer-actions {
-    flex-direction: row;
-    gap: 10px;
+  .subtitle{
+    font-size: 1rem;
   }
 }
 
