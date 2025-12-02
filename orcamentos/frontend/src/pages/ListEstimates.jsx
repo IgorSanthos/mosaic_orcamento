@@ -64,15 +64,15 @@ export default function ListEstimates() {
               <td>R$ {(est.total || 0).toFixed(2).replace(".", ",")}</td>
 
               <td className="actions">
-                <Link className="btn primary" to={`/orcamentos/${est.id}`}>
+                <Link className="btn-primary" to={`/orcamentos/${est.id}`}>
                   🔍
                 </Link>
 
-                <Link className="btn warning" to={`/orcamentos/${est.id}/editar`}>
+                <Link className="btn-warning" to={`/orcamentos/${est.id}/editar`}>
                   ✏️
                 </Link>
 
-                <button className="btn danger" onClick={() => handleDelete(est.id)}>
+                <button className="btn-danger" onClick={() => handleDelete(est.id)}>
                   🗑️
                 </button>
               </td>
