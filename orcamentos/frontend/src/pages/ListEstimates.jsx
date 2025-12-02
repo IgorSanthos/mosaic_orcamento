@@ -6,12 +6,16 @@ import "./ListEstimates.css";
 
 export default function ListEstimates() {
   const [estimates, setEstimates] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
+
     fetch(`${import.meta.env.VITE_API_URL}/api/estimates`)
       .then(res => res.json())
       .then(data => setEstimates(data))
-      .catch(err => console.error("Erro ao carregar orçamentos:", err));
+      .catch(err => console.error("Erro ao carregar orçamentos:", err))
+      .finally(() => setLoading(false)); // 👈 QUANDO TERMINA
   }, []);
 
   function handleDelete(id) {
@@ -27,6 +31,15 @@ export default function ListEstimates() {
       .catch(err => alert("Erro ao excluir: " + err));
   }
 
+  if (loading) {
+    return (
+      <Layout title="Orçamentos Salvos" subtitle="Carregando dados...">
+        <div className="loading">
+          Carregando...
+        </div>
+      </Layout>
+    );
+  }
   return (
     <Layout title="Orçamentos Salvos" subtitle="Gerencie todos os orçamentos já criados.">
       <table className="est-table">
@@ -52,15 +65,15 @@ export default function ListEstimates() {
 
               <td className="actions">
                 <Link className="btn primary" to={`/orcamentos/${est.id}`}>
-                  Ver
+                  🔍
                 </Link>
 
                 <Link className="btn warning" to={`/orcamentos/${est.id}/editar`}>
-                  Editar
+                  ✏️
                 </Link>
 
                 <button className="btn danger" onClick={() => handleDelete(est.id)}>
-                  Excluir
+                  🗑️
                 </button>
               </td>
             </tr>

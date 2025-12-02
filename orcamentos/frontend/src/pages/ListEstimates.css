@@ -37,15 +37,15 @@
 }
 
 .btn.primary {
-  background: #1a73e8;
+  background: #ffffff;
 }
 
 .btn.warning {
-  background: #f0ad4e;
+  background: #ffffff;
 }
 
 .btn.danger {
-  background: #d9534f;
+  background: #ffffff;
 }
 
 
@@ -73,9 +73,18 @@
   }
 
   .btn {
-    width: 100%;
     text-align: center;
-    padding: 10px 0;
-    font-size: 1.3rem; /* consistente com o resto */
+    height: 10px;
+    width: 20px;
+    height: 20px;
   }
+}
+
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 2rem;
+  color: #1a73e8;
+  font-weight: 600;
 }

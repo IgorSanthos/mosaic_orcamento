@@ -92,7 +92,7 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 10px;
   border: 1px solid #e0e4eb;
   background: #fff;
-  font-size: clamp(1rem, 1.6vw, 1.6rem);
+  font-size: clamp(1rem, 1.6vw, 1.6rem) !important;
   color: #111827;
 }
 
