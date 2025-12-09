@@ -11,9 +11,16 @@
 
 .table th,
 .table td {
-  padding: 12px 15px;
+  padding: 5px 5px;
   text-align: left;
-  vertical-align: middle;
+  vertical-align: top;
+}
+
+.table th:nth-child(n+2),
+.table td:nth-child(n+2) {
+  vertical-align:text-top;
+  width: 50px;
+  max-width: 50px;
 }
 
 .table th {
@@ -23,7 +30,7 @@
 }
 
 .table td {
-  font-size: clamp(0.9rem, 1.5vw, 1.1rem) !important; /* Sobrescreve outros estilos */
+  font-size: clamp(0.9rem, 1.5vw, 1.5rem) !important; /* Sobrescreve outros estilos */
   background: #f9f9f9;
 }
 
@@ -42,7 +49,7 @@
 
 .item-row-input {
   width: 100%;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: clamp(0.9rem, 1.5vw, 1rem);
@@ -80,6 +87,16 @@
     
   }
 
+
+  
+  .table th:nth-child(n+2),
+  .table td:nth-child(n+2) {
+    vertical-align:text-top;
+    width: 100%;
+    max-width: 100%;
+    padding: 5px;
+  }
+
   /* Esconde o cabeçalho da tabela no modo mobile */
   .table thead {
     display: none;
@@ -99,7 +116,6 @@
   .table tr td:first-child,
   .table tr td:last-child {
     border-radius: 0; /* Reseta o radius dos TDs dentro do card */
-    background: transparent; /* Reseta o background */
   }
 
   /* Cada célula se torna um bloco com label */
@@ -125,7 +141,7 @@
   .item-row-input[type="number"] {
     width: 100%;
     max-width: none; /* Remove a largura máxima para inputs numéricos */
-    padding: 12px;
+    padding: 5px;
     font-size: 1.6rem !important;
     
   }

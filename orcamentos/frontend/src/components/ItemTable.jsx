@@ -36,7 +36,7 @@ export default function ItemTable({ items, updateItem, addItem, removeItem }) {
 
       <div className="item-table-actions">
         <button className="btn btn-ghost" onClick={addItem}>
-          + Adicionar Item
+          +
         </button>
       </div>
     </div>

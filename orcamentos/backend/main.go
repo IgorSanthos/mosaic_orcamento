@@ -9,34 +9,33 @@ import (
 )
 
 func main() {
-	// Inicializa o banco
 	DB = SetupDatabase()
 
-	// Router principal
 	r := mux.NewRouter()
 
-	// Preflight global (todas as rotas)
-	r.Methods(http.MethodOptions).HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Origin", "https://mosaic-orcamento-front.onrender.com")
-		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-		w.WriteHeader(http.StatusOK)
-	})
-
-	// Middleware CORS
-	r.Use(simpleCORS)
-
-	// Grupo /api
+	// Subrouter /api
 	api := r.PathPrefix("/api").Subrouter()
 
-	// Rotas da API
+	// APLICA CORS DIRETAMENTE NO SUBROUTER
+	api.Use(dynamicCORS)
+
+	// 🔥 Registrar OPTIONS para passar no preflight
+	api.HandleFunc("/estimates", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}).Methods("OPTIONS")
+
+	api.HandleFunc("/estimates/{id}", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}).Methods("OPTIONS")
+
+	// Rotas reais
 	api.HandleFunc("/estimates", CreateEstimateHandler).Methods("POST")
 	api.HandleFunc("/estimates", ListEstimatesHandler).Methods("GET")
 	api.HandleFunc("/estimates/{id}", GetEstimateHandler).Methods("GET")
 	api.HandleFunc("/estimates/{id}", UpdateEstimateHandler).Methods("PUT")
 	api.HandleFunc("/estimates/{id}", DeleteEstimateHandler).Methods("DELETE")
 
-	// Porta (Render usa variável PORT)
+	// Porta
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
@@ -46,23 +45,26 @@ func main() {
 	log.Fatal(http.ListenAndServe(":"+port, r))
 }
 
-// CORS COMPLETO PARA FUNCIONAR COM REACT NO RENDER
-func simpleCORS(next http.Handler) http.Handler {
+// CORS Dinâmico
+func dynamicCORS(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		// Origem permitida (seu frontend)
-		w.Header().Set("Access-Control-Allow-Origin", "https://mosaic-orcamento-front.onrender.com")
+		allowed := map[string]bool{
+			"http://localhost:5173": true,
+			"https://mosaic-orcamento-front.onrender.com": true,
+		}
+
+		origin := r.Header.Get("Origin")
+
+		if allowed[origin] {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+		}
+
 		w.Header().Set("Vary", "Origin")
+		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 
-		// Headers permitidos
-		w.Header().Set("Access-Control-Allow-Headers",
-			"Content-Type, Authorization, X-Requested-With")
-
-		// Métodos permitidos
-		w.Header().Set("Access-Control-Allow-Methods",
-			"GET, POST, PUT, DELETE, OPTIONS")
-
-		// Preflight
+		// Pré-flight OPTIONS é finalizado aqui
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusOK)
 			return
