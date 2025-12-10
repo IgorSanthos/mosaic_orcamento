@@ -9,7 +9,7 @@ export default function Layout({ title, subtitle, children }) {
         <div className="header-row">
           <div className="brand">
             <img src="/logo.png" alt="Mosaic Gráfica" />
-            <div>
+            <div className="title">
               <h1>{title || "Mosaic Gráfica"}</h1>
               {subtitle && <div className="subtitle">{subtitle}</div>}
             </div>

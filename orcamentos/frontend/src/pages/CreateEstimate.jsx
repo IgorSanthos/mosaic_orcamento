@@ -69,32 +69,148 @@ export default function CreateEstimate() {
     }).catch(e=>alert("Erro: "+e));
   }
 
-  const generatePDF = () => {
-    const doc = new jsPDF();
-    const logo = new Image(); logo.src = "/logo.png";
+  //============================================== GERAR PDF 
 
-    logo.onload = () => {
-      doc.addImage(logo, "PNG", 14, 10, 48, 24);
-      doc.setFontSize(20);
-      doc.text("Mosaic Gráfica - Orçamento", 70, 26);
-      doc.setFontSize(11);
-      doc.text(`Cliente: ${clientName}`, 14, 46);
-      doc.text(`Produção: ${productionEta}`, 14, 54);
-      doc.text(`Pagamento: ${paymentMethod}`, 14, 62);
-      doc.text(`Observações: ${obs}`, 14, 78);
+  const generatePDF = ({
+  clientName,
+  date,
+  paymentMethod,
+  items,
+  obs,
+  total
+  }) => {
+  const doc = new jsPDF({ unit: "pt", format: "a4" });
 
-      const tableData = items.map(it => {
-        const quantity = parseLocalFloat(it.quantity);
-        const unit_price = parseLocalFloat(it.unit_price);
-        return [quantity, it.title, `R$ ${unit_price.toFixed(2)}`, `R$ ${(quantity*unit_price).toFixed(2)}`];
-      });
+  // === NUMERAÇÃO DO PEDIDO ===
+  const orderNumber = Date.now().toString().slice(-6);
 
-      autoTable(doc, { head:[["Qtd","Descrição","Valor Unit.","Subtotal"]], body:tableData, startY: 90 });
-      doc.setFontSize(14);
-      doc.text(`Total: R$ ${total.toFixed(2)}`, 14, doc.lastAutoTable.finalY + 16);
-      doc.save("orcamento_mosaic.pdf");
-    };
+  // === DATA E HORA DA GERAÇÃO ===
+  const now = new Date();
+  const generatedAt = now.toLocaleDateString("pt-BR") + " " + now.toLocaleTimeString("pt-BR");
+
+  const logo = new Image();
+  logo.src = "/logo_mosaic.png";
+
+  logo.onload = () => {
+    const pageWidth = doc.internal.pageSize.width;
+
+    const marginLeft = 40;
+    const marginRight = 30;
+    const usableWidth = pageWidth - marginLeft - marginRight;
+
+    // ---------------- CABEÇALHO ----------------
+    doc.addImage(logo, "PNG", marginLeft, 30, 100, 100);
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("MOSAIC GRÁFICA", pageWidth - marginRight - 160, 40);
+    doc.setFont("helvetica", "normal");
+    doc.text("CNPJ: 55.326.497/0001-24", pageWidth - marginRight - 160, 60);
+    doc.text("Telefone: +55 11 91944-0061", pageWidth - marginRight - 160, 80);
+    doc.text("contato@mosaicgrafica.com.br", pageWidth - marginRight - 160, 100);
+
+    // ---------------- INFORMAÇÃO DE GERAÇÃO ----------------
+    doc.setFontSize(10);
+    doc.text(`Gerado em: ${generatedAt}`, marginLeft, 20);
+
+    // ---------------- TÍTULO COM NÚMERO ----------------
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(20);
+    doc.text(`Pedido de Venda Nº ${orderNumber}`, pageWidth / 2, 165, { align: "center" });
+
+    let y = 190;
+
+    // ---------------- CAIXA CLIENTE ----------------
+    doc.rect(marginLeft, y, usableWidth, 30);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.text("Cliente:", marginLeft + 10, y + 18);
+    doc.setFont("helvetica", "normal");
+    doc.text(clientName || "", marginLeft + 50, y + 18);
+
+    // ---------------- CAIXA DATA / PAGAMENTO ----------------
+    y += 70;
+
+    doc.rect(marginLeft, y, usableWidth, 26);
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(10);
+    doc.text("Data:", marginLeft + 10, y + 15);
+    doc.text("Pagamento:", marginLeft + 210, y + 15);
+    
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.text(date, marginLeft + 40, y + 15);
+    doc.text(paymentMethod, marginLeft + 270, y + 15);
+
+    // ---------------- TABELA ITENS ----------------
+    y += 80;
+
+    autoTable(doc, {
+      startY: y,
+      tableWidth: usableWidth,
+      margin: { left: marginLeft },
+      theme: "grid",
+      headStyles: {
+        fillColor: [29, 47, 67],
+        textColor: [255, 255, 255],
+        fontStyle: "bold",
+        lineWidth: 0.8
+      },
+      styles: {
+        lineWidth: 0.5,
+        lineColor: [150, 150, 150],
+        fontSize: 11
+      },
+      head: [["Item", "Descrição", "Qtd", "Valor Unit.", "Total"]],
+      body: items.map((it, i) => {
+        const q = parseLocalFloat(it.quantity);
+        const u = parseLocalFloat(it.unit_price);
+        return [
+          i + 1,
+          it.title,
+          q,
+          `R$ ${u.toFixed(2)}`,
+          `R$ ${(q * u).toFixed(2)}`
+        ];
+      }),
+      columnStyles: {
+        0: { halign: "center", cellWidth: 50 },
+        1: { cellWidth: 240 },
+        2: { halign: "center", cellWidth: 60 },
+        3: { halign: "center", cellWidth: 90 },
+        4: { halign: "center", cellWidth: 90 }
+      }
+    });
+
+    y = doc.lastAutoTable.finalY + 30;
+
+    // ---------------- TOTAL GERAL ----------------
+    doc.rect(marginLeft, y, usableWidth, 40);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.text(`Total Geral: R$ ${total.toFixed(2)}`, marginLeft + 10, y + 25);
+
+    // ---------------- OBSERVAÇÕES ----------------
+    if (obs?.trim()) {
+      y += 60;
+      doc.rect(marginLeft, y, usableWidth, 80);
+      doc.setFont("helvetica", "bold");
+      doc.text("Observações:", marginLeft + 10, y + 20);
+
+      doc.setFont("helvetica", "normal");
+      const wrapped = doc.splitTextToSize(obs, usableWidth - 20);
+      doc.text(wrapped, marginLeft + 10, y + 40);
+    }
+
+    // ---------------- ABRIR PARA VISUALIZAÇÃO ----------------
+    window.open(doc.output("bloburl"), "_blank");
   };
+  };
+
+// ====================== GERAR PDF ================
+
 
   return (
     <Layout title="CRIAR ORÇAMENTO" subtitle="Crie e exporte propostas rápidas">
@@ -114,7 +230,22 @@ export default function CreateEstimate() {
       <div className="footer-actions">
         <button className="btn" onClick={saveEstimate}>Salvar Orçamento</button>
         <button className="btn btn-success" onClick={()=>navigator.clipboard.writeText(finalMessage)}>Copiar Texto</button>
-        <button className="btn btn-warning" onClick={generatePDF}>Gerar PDF</button>
+        <button
+          className="btn btn-warning"
+          onClick={() => {
+            console.log("CLICOU NO BOTÃO PDF !!!");
+            generatePDF({
+              clientName,
+              date: new Date().toLocaleDateString("pt-BR"),
+              paymentMethod,
+              items,
+              obs,
+              total
+            });
+          }}
+        >
+          Gerar PDF
+        </button>
         <div className="small-muted">Total: R$ {total.toFixed(2)}</div>
       </div>
     </Layout>
