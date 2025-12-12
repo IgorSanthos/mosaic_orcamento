@@ -116,7 +116,7 @@ export default function CreateEstimate() {
     // ---------------- TÍTULO COM NÚMERO ----------------
     doc.setFont("helvetica", "bold");
     doc.setFontSize(20);
-    doc.text(`Pedido de Venda Nº ${orderNumber}`, pageWidth / 2, 165, { align: "center" });
+    doc.text(`Proposta comercial Nº ${orderNumber}`, pageWidth / 2, 165, { align: "center" });
 
     let y = 190;
 
